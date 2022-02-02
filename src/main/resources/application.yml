@@ -4,12 +4,26 @@ spring:
   application:
     name: USER-SERVICE
   datasource:
-    username: thujitha
-    password: *
-    url: jdbc:mysql://localhost:3306/userDB
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: jdbc:mysql://${DB_HOST}/${DB_NAME}?useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      initialization-fail-timeout: 0
   jpa:
     show-sql: true
+    generate-ddl: true
     hibernate:
-      ddl-auto: update
-    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+
+
+eureka:
+  instance:
+    preferIpAddress: true
+    hostname: eureka-0
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://eureka-0.eureka.default.svc.cluster.local:8761/eureka
